@@ -19,7 +19,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 
 public class htmlParse {
@@ -52,7 +51,6 @@ public class htmlParse {
 			}
 			String str_title=parse_doc.getElementsByTag("title").text();
 			String str_body=parse_doc.getElementById("content").text();
-		
 			//-----------------------xml파일 생성---------------------------------------------
 			org.w3c.dom.Element doc =total_doc.createElement("doc");
 			doc.setAttribute("id",""+i+"");
@@ -65,8 +63,10 @@ public class htmlParse {
 			org.w3c.dom.Element body =total_doc.createElement("body");
 			body.appendChild(total_doc.createTextNode(str_body));
 			doc.appendChild(body);
-			
 		}
+		makeXML(total_doc,"collection.xml");
+	}
+	static void makeXML(org.w3c.dom.Document doc,String fileName) {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		
 		Transformer transformer=null;
@@ -78,10 +78,10 @@ public class htmlParse {
 		}
 		
 		transformer.setOutputProperty(OutputKeys.ENCODING,"UTF-8");
-		DOMSource source=new DOMSource(total_doc);
+		DOMSource source=new DOMSource(doc);
 		StreamResult result=null;
 		try {
-			result = new StreamResult(new FileOutputStream(new File("collection.xml")));
+			result = new StreamResult(new FileOutputStream(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,5 +94,6 @@ public class htmlParse {
 			e.printStackTrace();
 		}
 	}
+	
 	}
 
