@@ -1,9 +1,10 @@
 package assignment;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
+import java.io.IOException;
 
 
 import javax.xml.parsers.DocumentBuilder;
@@ -21,7 +22,8 @@ import javax.xml.transform.stream.StreamResult;
 
 public class kuir {
 
-	public static void main(String[] args)   {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException   {
 		// TODO Auto-generated method stub
 		DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder=null;
@@ -30,9 +32,9 @@ public class kuir {
 		} catch (ParserConfigurationException e1) {
 			e1.printStackTrace();
 		}
+		
 		if(args.length>1) {
 			if(args[0].equals("-c")) {
-				String a1=args[1];
 				File input= new File(args[1]);
 				File inputList[]= input.listFiles();
 				makeCollection parser= new makeCollection(inputList,docBuilder);
@@ -43,7 +45,13 @@ public class kuir {
 					makeKeyword analyze=new makeKeyword(collection,docBuilder);
 					analyze.chageBody();
 					makeXML(analyze.total_doc,"index.xml");
-				}else {
+				}else if(args[0].equals("-i")) {
+					File input= new File(args[1]);
+					indexer weight = new indexer(input,docBuilder);
+					weight.weightAnalyze();
+					weight.makeFile();
+				}
+				else {
 					System.out.println("만들 수 없는 파일입니다.");
 				}
 		}
