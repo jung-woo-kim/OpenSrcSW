@@ -69,7 +69,6 @@ public class indexer {
 						Double change1=Double.parseDouble(WeightMap.get(key_sum_list.get(j)[0]).get(WeightMap.get(key_sum_list.get(j)[0]).size()-1).get(1));
 						Double change2=this.caculation(Double.parseDouble(key_sum_list.get(j)[1]),appear_sum);
 						Double set_this=change1+change2;
-						System.out.println(appear_sum);
 						WeightMap.get(key_sum_list.get(j)[0]).get(WeightMap.get(key_sum_list.get(j)[0]).size()-1).set(1,set_this.toString());
 					}else {
 						WeightMap.get(key_sum_list.get(j)[0]).add(array);
