@@ -56,6 +56,7 @@ public class indexer {
 					for(int l=0;l<total_list.get(k).size();l++) {
 						if(total_list.get(k).get(l)[0].equals(key_sum_list.get(j)[0])) {
 							appear_sum+=1.0;
+							break;
 						}
 					}
 				}
@@ -63,7 +64,19 @@ public class indexer {
 					ArrayList<String> array=new ArrayList<String>();
 					array.add(n_list.item(i).getParentNode().getAttributes().getNamedItem("id").getNodeValue());
 					array.add(this.caculation(Double.parseDouble(key_sum_list.get(j)[1]),appear_sum).toString());
-					WeightMap.get(key_sum_list.get(j)[0]).add(array);
+					//꼬꼬마 형태소 예외 처리 한문서에 단어 두번 등장 할때
+					if(WeightMap.get(key_sum_list.get(j)[0]).get(WeightMap.get(key_sum_list.get(j)[0]).size()-1).get(0)==n_list.item(i).getParentNode().getAttributes().getNamedItem("id").getNodeValue()) {
+						Double change1=Double.parseDouble(WeightMap.get(key_sum_list.get(j)[0]).get(WeightMap.get(key_sum_list.get(j)[0]).size()-1).get(1));
+						Double change2=this.caculation(Double.parseDouble(key_sum_list.get(j)[1]),appear_sum);
+						Double set_this=change1+change2;
+						System.out.println(appear_sum);
+						WeightMap.get(key_sum_list.get(j)[0]).get(WeightMap.get(key_sum_list.get(j)[0]).size()-1).set(1,set_this.toString());
+					}else {
+						WeightMap.get(key_sum_list.get(j)[0]).add(array);
+					}
+					
+					
+					
 				}else {
 					ArrayList<String> array=new ArrayList<String>();
 					ArrayList<ArrayList<String>> arrayAdd=new ArrayList<ArrayList<String>>();
