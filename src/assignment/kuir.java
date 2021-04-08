@@ -1,11 +1,16 @@
 package assignment;
 
 import java.io.File;
-
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,11 +23,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.snu.ids.kkma.index.KeywordExtractor;
+import org.snu.ids.kkma.index.KeywordList;
+
 
 
 public class kuir {
 
 
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
 	public static void main(String[] args) throws IOException, ClassNotFoundException   {
 		// TODO Auto-generated method stub
 		DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
@@ -52,11 +61,17 @@ public class kuir {
 					weight.makeFile();
 				}else if(args[0].equals("-s")) {
 					File input= new File(args[1]);
-					if(args[2].equals("-q")) {
-						searcher search = new searcher(args[3],docBuilder,input);
-						search.CalcSim();
+
+					if(args.length>3) {
+						if(args[2].equals("-q")) {
+							searcher sea = new searcher(args[3],docBuilder,input);
+							sea.CalcSim();
+						}else {
+							System.out.println("3번째 인자값이 잘못되었습니다.");
+						}
+						
 					}else {
-						System.out.println("세번째 인자값이 잘못되었습니다.");
+						System.out.println("-q와 함께 검색할 내용을 입력해주세요");
 					}
 					
 				}
@@ -67,6 +82,23 @@ public class kuir {
 		else {
 			System.out.println("인자값을 넘겨주어야 합니다");
 		}
+		
+//		FileInputStream fileStream=new FileInputStream("index.post");
+//		ObjectInputStream objectInputStream= new ObjectInputStream(fileStream);
+//		Object obj= objectInputStream.readObject();
+//		objectInputStream.close();
+//		HashMap hashMap=(HashMap)obj;
+//		System.out.println(hashMap.get("일"));
+//		Iterator<String> it =hashMap.keySet().iterator();
+//		while(it.hasNext()) {
+//			String key=it.next();
+//			
+//			System.out.println(key+"->"+hashMap.get(key));
+//		}
+		
+		
+		
+		
 		
 	}
 	

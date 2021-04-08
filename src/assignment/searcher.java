@@ -29,8 +29,10 @@ public class searcher {
 		this.docBuilder=docBuilder;
 		this.post=post;
 	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void CalcSim() throws IOException, ClassNotFoundException{
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public HashMap<Integer,Double> InnerProduct() throws IOException, ClassNotFoundException{
+
 		kl=ke.extractKeyword(str, true);
 		FileInputStream fileStream=new FileInputStream(post);
 		ObjectInputStream objectInputStream= new ObjectInputStream(fileStream);
@@ -38,7 +40,6 @@ public class searcher {
 		objectInputStream.close();
 		HashMap hashMap=(HashMap)obj;
 		HashMap<Integer,Double> Qid=new HashMap<Integer,Double>();
-		HashMap<Integer,Double> SimQid=new HashMap<Integer,Double>();
 		for(int i=0;i<5;i++) {
 			double inner=0.0;
 			for(int j=0;j<kl.size();j++) {
@@ -59,6 +60,22 @@ public class searcher {
 			inner=Math.round(inner*100.0)/100.0;
 			Qid.put(i, inner);
 		}
+		return Qid;
+		}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void CalcSim() throws IOException, ClassNotFoundException{
+		HashMap<Integer,Double> Qid=this.InnerProduct();
+
+		FileInputStream fileStream=new FileInputStream(post);
+		ObjectInputStream objectInputStream= new ObjectInputStream(fileStream);
+		Object obj= objectInputStream.readObject();
+		objectInputStream.close();
+		HashMap hashMap=(HashMap)obj;
+		
+
+		HashMap<Integer,Double> SimQid=new HashMap<Integer,Double>();
+
+		
 		for(int i=0;i<5;i++) {
 			double weightQuery=0.0;
 			double weightDoc=0.0;
@@ -90,6 +107,7 @@ public class searcher {
 		
 		List<Integer> keySet= new ArrayList<>(SimQid.keySet());
 		Collections.sort(keySet,(o1,o2)->(SimQid.get(o2).compareTo(SimQid.get(o1))));
+
 		
 		File collection= new File("./collection.xml");
 		org.w3c.dom.Document xml=null;
