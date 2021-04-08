@@ -64,7 +64,7 @@ public class kuir {
 					if(args.length>3) {
 						if(args[2].equals("-q")) {
 							searcher sea = new searcher(args[3],docBuilder,input);
-							sea.CalcSim();
+							sea.InnerProduct();
 						}else {
 							System.out.println("3번째 인자값이 잘못되었습니다.");
 						}

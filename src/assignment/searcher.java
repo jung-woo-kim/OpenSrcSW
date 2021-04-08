@@ -22,15 +22,15 @@ public class searcher {
 	String str;
 	DocumentBuilder docBuilder;
 	File post;
+	KeywordExtractor ke =new KeywordExtractor();
+	KeywordList kl=null;
 	public searcher(String str,DocumentBuilder docBuilder,File post) {
 		this.str=str;
 		this.docBuilder=docBuilder;
 		this.post=post;
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void CalcSim() throws IOException, ClassNotFoundException {
-		KeywordExtractor ke =new KeywordExtractor();
-		KeywordList kl=null;
+	public void InnerProduct() throws IOException, ClassNotFoundException{
 		kl=ke.extractKeyword(str, true);
 		FileInputStream fileStream=new FileInputStream(post);
 		ObjectInputStream objectInputStream= new ObjectInputStream(fileStream);
@@ -59,7 +59,7 @@ public class searcher {
 			Qid.put(i, inner);
 		}
 		for(int i=0;i<5;i++) {
-			System.out.println("id :"+i+"->"+"À¯»çµµ :"+Qid.get(i));
+			System.out.println("id"+i+":"+Qid.get(i));
 		}
 		
 		List<Integer> keySet= new ArrayList<>(Qid.keySet());
@@ -80,8 +80,15 @@ public class searcher {
 		Element root = xml.getDocumentElement();
 		NodeList n_list=root.getElementsByTagName("title");
 		for(int i=0;i<3;i++) {
-			System.out.println(n_list.item(keySet.get(i)).getTextContent());
-		}
+			if(keySet.get(i)==0.0) {
+				break;
+			}else {
+				System.out.println(n_list.item(keySet.get(i)).getTextContent());
+			}
 		
+		}
 	}
+	
+	
+	
 }
