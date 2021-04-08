@@ -50,6 +50,15 @@ public class kuir {
 					indexer weight = new indexer(input,docBuilder);
 					weight.weightAnalyze();
 					weight.makeFile();
+				}else if(args[0].equals("-s")) {
+					File input= new File(args[1]);
+					if(args[2].equals("-q")) {
+						searcher search = new searcher(args[3],docBuilder,input);
+						search.CalcSim();
+					}else {
+						System.out.println("세번째 인자값이 잘못되었습니다.");
+					}
+					
 				}
 				else {
 					System.out.println("만들 수 없는 파일입니다.");
